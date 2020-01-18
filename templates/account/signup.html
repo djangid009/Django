@@ -1,0 +1,92 @@
+{% extends "account/base.html" %}
+{%load static%}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<!-- <h1>{% trans "Sign Up" %}</h1> -->
+
+<!-- <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p> -->
+
+<div class="page-wraper">
+  <div id="loading-icon-bx"></div>
+  <div class="account-form">
+    <div class="account-head" style="background-image:url(/static/assets/images/background/mbm.png);">
+      <a href="index.html"><img src="{% static 'assets/images/smartlogo.png' %}" alt=""></a>
+    </div>
+    <div class="account-form-inner">
+      <div class="account-container">
+        <div class="heading-bx left">
+          <h2 class="title-head">Sign Up <span>Now</span></h2>
+          <p>Login Your Account <a href="{% url 'account_login' %}">Click here</a></p></br>
+        </div>
+
+        <form enctype="multipart/form-data" id="CustomSignupForm" method="post" action="{% url 'account_signup' %}">
+          {% csrf_token %}
+
+          <div class=" row placeani">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <label for="{{id_username}}">Your User Name</label>
+                  <input id="{{id_username}}" value="{{value}}" name="username" type="text" required
+                    class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <label for="{{id_email}}">Your Email Address</label>
+                  <input id="{{id_email}}" value="{{value}}" name="email" type="text" required class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <label for="{{id_password1}}">Password</label>
+                  <input id="{{id_password1}}" value="{{value}}" name="password1" type="password" required
+                    class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <label for="{{id_password2}}">Confirm Password</label>
+                  <input id="{{id_password2}}" value="{{value}}" name="password2" type="password" required
+                    class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 m-b30">
+              <button name="submit" type="submit" value="Submit" class="btn button-md">Sign
+                Up</button>
+            </div>
+            <div class="col-lg-12">
+              <h6>Sign Up with Social media</h6>
+              <div class="d-flex">
+                <a class="btn flex-fill m-r5 facebook" href="#"><i class="fa fa-facebook"></i>Facebook</a>
+                <a class="btn flex-fill m-l5 google-plus" href="#"><i class="fa fa-google-plus"></i>Google Plus</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <form class="signup" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+</form> -->
+
+{% endblock %}
