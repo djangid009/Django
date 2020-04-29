@@ -26,14 +26,13 @@ class Rank(models.Model):
 
 class Question_cat(models.Model):
     c_id = models.AutoField(primary_key=True)
-    cat_name = models.CharField(max_length=100) 
+    cat_name = models.CharField(max_length=100)
 
 
 class Question(models.Model):
     username = models.CharField(max_length=100, default='')
     questiontitle = models.CharField(max_length=100, default='')
     questiondetails = models.TextField(max_length=500, default='')
-    qid = models.AutoField(primary_key=True)
     #c_id = models.ForeignKey(Question_cat, on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=timezone.now)
 
@@ -42,7 +41,6 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    aid = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100)
     qid = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=200)
