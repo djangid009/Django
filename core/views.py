@@ -15,32 +15,34 @@ def home_page(request):
 
 
 def questiondetails(request):
-    form = QuestionForm()
-    question = Question.objects.all()
+    form = AnswerForm(request.POST or None)
+    question = Question.objects.filter(qid=id)
+    answer = Answer.objects.all()
+    rank = Rank.objects.filter(name=request.user.username)
     context = {
-        'form': form
+        'form': form,
+        'question': question,
+        'answer': answer
     }
     if request.method == 'POST':
-        form = QuestionForm(request.POST or None)
+        form = AnswerForm(request.POST or None)
         if form.is_valid():
-            questiontitle = form.cleaned_data.get('questiontitle')
-            questiondetails = form.cleaned_data.get('questiondetails')
-            question = Question(questiontitle=questiontitle,
-                                questiondetails=questiondetails)
-            question.save()
+            answer = form.cleaned_data.get('answer')
+            answer = Answer(username=username, answer=answer)
+            answer.save()
+            rank.update(points=F('points') + 5)
         else:
             print('Error')
     return render(request, 'questiondetails.html', context)
 
 
 def question(request):
-    question = Question.objets.all()[0]
-    answer = Answer.objects.all()
-    comment = Comment.objects.all()
+    form = QuestionForm()
+    question = Question.objects.all()
+    rank = Rank.objects.filter(name=request.user.username)
     context = {
-        'question': question,
-        'answer': answer,
-        'comment': comment
+        'form': form,
+        'question': question
     }
     if request.method == 'POST':
         form = QuestionForm(request.POST or None)
@@ -48,9 +50,12 @@ def question(request):
             username = request.user.username
             questiontitle = form.cleaned_data.get('questiontitle')
             questiondetails = form.cleaned_data.get('questiondetails')
-            question = question(
+            print(questiontitle)
+            print(questiondetails)
+            question = Question(
                 username=username, questiontitle=questiontitle, questiondetails=questiondetails)
             question.save()
+            rank.update(points=F('points') + 20)
         else:
             print('Error')
     return render(request, 'question.html', context)
@@ -112,8 +117,13 @@ def blog(request):
 
 
 def rank(request):
-    rank_value = Rank.objects.all()
-    return render(request, 'rank.html', {'rank_value': rank_value})
+    rank_value = Rank.objects.all().order_by('-points')
+    index = Rank.objects.all().order_by('-points').count()
+    context = {
+        'rank_value': rank_value,
+        'index': index
+    }
+    return render(request, 'rank.html', context)
 
 # def profile_info(request):
 #     profile_value = Profile_info.objects.all()[0]

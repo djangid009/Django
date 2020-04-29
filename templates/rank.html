@@ -249,9 +249,11 @@
 												</div>
 											</div>
 											<ul class="pricingtable-features">
-												{% for i in rank_value %}
-												<li>{{i.rank}}</li>
+												{% with ''|center:index as range %}
+												{% for _ in range %}
+												<li>{{ forloop.counter }}</li>
 												{% endfor %}
+												{% endwith %}
 
 												<!--<li>1</li>
 											<li>1</li>

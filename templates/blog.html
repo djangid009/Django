@@ -193,8 +193,7 @@
 															</div>
 															<!-- <p> {{blog.message}}</p> -->
 															<p>{{ i.message }} </p>
-															<div class="reply"> <a href="#"
-																	class="comment-reply-link">Reply</a> </div>
+
 
 															{% endfor %}
 														</div>
@@ -220,6 +219,7 @@
 												</ol>
 												<!-- comment list END -->
 												<!-- Form -->
+												{% if user.is_authenticated %}
 												{% block js %}
 
 												<div class="comment-respond" id="respond">
@@ -253,6 +253,13 @@
 													localStorage.clear();
 												</script>
 												{% endblock %}
+
+
+												{% else %}
+												<li><a href="{% url 'account_login' %}">Login </a></li>
+												<li><a href="{% url 'account_signup' %}"> or Sign Up</a></li>
+												{% endif %}
+
 												<!-- Form -->
 											</div>
 										</div>
